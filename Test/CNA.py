@@ -84,6 +84,7 @@ def Master(filename, R_Cut):
     for keys in CNAS:
         MasterKey.append(keys)
     CNAS=0
+    MasterKey.sort()
     return MasterKey
     
 
@@ -131,7 +132,7 @@ def get_cnas(filename, R_Cut, j):
             except KeyError:
                 all_cnas[key] = atomic_cna[key]
 
-    sorted_cnas = sorted(all_cnas.items(), key=lambda kv: -kv[1])
+    sorted_cnas = sorted(all_cnas.items())
     sorted_cnas_dict = {}
     for t in sorted_cnas:
         sorted_cnas_dict[t[0]] = t[1]
