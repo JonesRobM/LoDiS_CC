@@ -101,6 +101,7 @@ def agcn_generator(adj=None):
         
     """
     
+    
     if adj is None:
         raise TypeError('You have not specified your adjacecny matrix.')
         
