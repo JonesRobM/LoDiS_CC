@@ -1,4 +1,3 @@
-from numpy import *
 import numpy as np
 
 def distance(a, b):
@@ -131,7 +130,7 @@ def RDF(i_frame, positions, Res, R_Cut):
     for i, value in enumerate(G):
         G[i] = value / Volumes[i] #Rescaling the distribution with respect to enclosing volume
     
-    b = (diff(sign(diff(G))) > 0).nonzero()[0] + 1 # local min
+    b = (np.diff(np.sign(np.diff(G))) > 0).nonzero()[0] + 1 # local min
     R=Radii[b[1]]
     return Radii, G, R
 
