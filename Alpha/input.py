@@ -38,7 +38,7 @@ Quantities = {
         'EKin' : None, 'EDelta' : None, 'MeanETot' : None, 'Temp' : None
         }
 
-TestMetadata = Process(System, Quantities)
+TestMetadata = Process.Process(System, Quantities)
 
-with open('Metadata.csv', "wb") as f:
-    pickle.dump(TestMetaData,f, pickle.HIGHEST_PROTOCOL)
+with open('MetadataSample.csv', "wb") as f:
+    pickle.dump(TestMetadata,f, pickle.HIGHEST_PROTOCOL)
