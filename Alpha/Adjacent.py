@@ -5,14 +5,6 @@ import wikiquote
 import scipy.sparse as spa
 
 
-if __name__ == '__main__':
-    filename='/home/k1899676/Documents/JanusMeltMovie1.xyz'
-    Cut=3 #The cut-off distance for an atom to be considered adjacent
-
-#In theory, Cut should be evaluated framewise with respect to CNA
-
-
-
 def Adjacency_Matrix(positions, distances, R_Cut):
     
     """ Robert
@@ -59,5 +51,3 @@ def Adjacency_Matrix(positions, distances, R_Cut):
 
 
 print(wikiquote.quotes(wikiquote.random_titles(max_titles=1)[0]), "\n")
-
-#A,B=Adjacency_Matrix(filename, 0, 3.0)
