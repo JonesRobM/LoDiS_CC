@@ -66,8 +66,8 @@ class Kernels():
         Gaussian distributed about the position on the grid under consideration.
         """
         
-        Space = np.linspace(2, int(max(Data)), 200); A=[]; Data=np.asarray(Data)
-        
+        Space = np.linspace(2, 8, 100); A=[]; Data=np.asarray(Data)
+        Data = [elem for elem in Data if 1 < elem < 9]
         for i in range(len(Data)):
             A.append(norm.pdf(Space, Data[i],Band))
         Density = np.asarray(np.sum(A, axis=0))
@@ -104,7 +104,7 @@ class Kernels():
         
         
         
-        Space=np.linspace(2,int(max(Data)),200); Density = []
+        Space=np.linspace(2,int(max(Data)/2),300); Density = []
         for i in Space:
             Density.append(minifunc(Data, Band, i))
         Min = (np.diff(np.sign(np.diff(Density))) > 0).nonzero()[0] + 1 # local min
