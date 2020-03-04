@@ -7,38 +7,29 @@ Supported=[
            ]
 
 System = {
-        'base_dir' : '../../../Pd/1127/Melting100/',
-        'movie_file_name' : 'PdMelt5-Movie.xyz',
-        'energy_file_name' : 'PdMelt5-En.out',
+        'base_dir' : 'TestTraj/',
+        'movie_file_name' : 'movie.xyz',
+        'energy_file_name' : 'energy.out',
         
-        'Homo' : 'Cu', # Don't worry about this guy just yet, it will become relevant soon.
+        'Homo' : ['Au', 'Pd'], 'HomoQuants' : [ 'HoPDF', 'HoRDF', 'CoM', 'HoAdj' ], 
+        'Hetero' : True, 'HeteroQuants' : [ 'HePDF', 'HeRDF', 'HeAdj' ],
         
-        'Start' : 0, 'End' : None, 'Step' : 1, 'Skip' : 50, 'UniformPDF' : False, 'Band' : 0.05,
-        #'PdfStats' : True, 'HomoStats' : True, 'RdfStats' : True, 'CnaStats' : True,
+        'Start' : 0, 'End' : 1000, 'Step' : 1, 'Skip' : 50, 'UniformPDF' : False, 'Band' : 0.05,
         
-        #Below are quantities related to the energy file
+        'HCStats' : True,
         
         'SimTime': True, 'EPot': True, 'ETot' : True, 
         'EKin' : True, 'EDelta' : True, 'MeanETot' : True, 'Temp' : True
         }
 
-
-
 Quantities = {
-        'euc' : None,
-        'rdf' : None, 
-        'pos' : None, 
-        'cna' : None, 
-        'adj' : None, 
-        'pdf' : None,
-        #'pdfhomo' : np.empty((Time,), dtype=object),
-        'agcn' : None,
-        'nn' : None,
+        'euc' : None, 'rdf' : None, 'pos' : None, 'cna' : None, 
+        'adj' : None, 'pdf' : None, 'agcn' : None, 'nn' : None, 'CoM' : None,
         'SimTime': None, 'EPot': None, 'ETot' : None, 
         'EKin' : None, 'EDelta' : None, 'MeanETot' : None, 'Temp' : None
         }
 
 TestMetadata = Process.Process(System, Quantities)
 
-with open('MetadataSample.csv', "wb") as f:
+with open('TestTraj/MetadataSample.csv', "wb") as f:
     pickle.dump(TestMetadata,f, pickle.HIGHEST_PROTOCOL)
