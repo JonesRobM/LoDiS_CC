@@ -1,5 +1,5 @@
 import numpy as np
-import wikiquote
+#import wikiquote
 import scipy.sparse as spa
 
 def Adjacency_Matrix(positions, distances, R_Cut):
@@ -64,4 +64,4 @@ def Collectivity(R):
 def Concertedness(H1, H2):
     return abs(H2-H1) 
     
-print(wikiquote.quotes(wikiquote.random_titles(max_titles=1)[0]), "\n")
+#print(wikiquote.quotes(wikiquote.random_titles(max_titles=1)[0]), "\n")
