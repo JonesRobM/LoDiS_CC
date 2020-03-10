@@ -198,3 +198,5 @@ def JSD(P,Q):
     for x in range(len(Q)):
         K-=0.5*(P[x]*np.log(2*Q[x]/(Q[x]+P[x]))+Q[x]*np.log(2*P[x]/(P[x]+Q[x])))
     return np.sqrt(K)
+
+
