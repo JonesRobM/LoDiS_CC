@@ -435,8 +435,6 @@ def Process(System = None, Quantities=None):
 
         temptime=time.time()
         result_cache['pos'] = all_positions
-        if i is Start:
-            print("Be aware that it takes roughly %.3f seconds to extract the positions for each frame." %(time.time()-temptime))
         result_cache['euc'] = DistFuncs.Euc_Dist(result_cache['pos'])
           
         
@@ -451,9 +449,12 @@ def Process(System = None, Quantities=None):
                         metadata['HoRDF'+x][int(i/(Step*Skip))] = DistFuncs.RDF(result_cache['homopos'+x])
             except KeyError:
                 pass
-            if bool(bool(System['Hetero'])*globals()['HeRDF']) is True:
-                metadata['HeRDF'][int(i/(Step*Skip))] = DistFuncs.RDF(result_cache['pos'], Res=100, R_Cut=10.0, Hetero = True, 
-                                                                      Species = metadata['Species'], Elements = metadata['Elements'])
+            try:
+                if bool(bool(System['Hetero'])*globals()['HeRDF']) is True:
+                    metadata['HeRDF'][int(i/(Step*Skip))] = DistFuncs.RDF(result_cache['pos'], Res=100, R_Cut=10.0, Hetero = True, 
+                                                                          Species = metadata['Species'], Elements = metadata['Elements'])
+            except KeyError:
+                pass
     
         #All PDF calculations performed in the following block
         if i%Skip==0 and bool(globals()['pdf']) is True:
@@ -471,11 +472,17 @@ def Process(System = None, Quantities=None):
                             pass
             except KeyError:
                 pass
-            if bool(System['Hetero']*globals()['HePDF']) is True:
-                result_cache['heteropos'] = DistFuncs.Hetero(result_cache['pos'], metadata['Species'][0], metadata['Elements'])
-                Temp = np.concatenate(result_cache['heteropos']).ravel()
-                metadata['HePDF'] = Kernels.Kernels.Uniform(Temp, Band, mon=True)
-    
+            try:
+                if bool(System['Hetero']*globals()['HePDF']) is True:
+                    result_cache['heteropos'] = DistFuncs.Hetero(result_cache['pos'], metadata['Species'][0], metadata['Elements'])
+                    if result_cache['heteropos'] is not None:
+                        Temp = np.concatenate(result_cache['heteropos']).ravel()
+                        metadata['HePDF'] = Kernels.Kernels.Uniform(Temp, Band, mon=True)
+                    else:
+                        metadata['HePDF'] = None
+                        print("There was an error with the heterogenous distance array. No PDF calculated for frame %s."%(i), "\n")
+            except KeyError:
+                pass
     
         #This block evaluates all of the CoM calculations
         if bool(globals()['CoM']) is True:
@@ -511,11 +518,16 @@ def Process(System = None, Quantities=None):
                                                                                                result_cache['HomoED'+x], R_Cut) )
         except KeyError:
             pass
-        
-        if bool(System['Hetero']*globals()['HeAdj']) is True:
-            result_cache['HeDist'] = DistFuncs.Hetero(result_cache['pos'], metadata['Species'][0], metadata['Elements'])
-            metadata['HeAdj'][int(i/Step)] = Adjacent.get_coordination_hetero(result_cache['HeDist'], R_Cut)
-        
+        try:
+            if bool(System['Hetero']*globals()['HeAdj']) is True:
+                result_cache['HeDist'] = DistFuncs.Hetero(result_cache['pos'], metadata['Species'][0], metadata['Elements'])
+                if result_cache['heteropos'] is not None:
+                    metadata['HeAdj'][int(i/Step)] = Adjacent.get_coordination_hetero(result_cache['HeDist'], R_Cut)
+                else:
+                    metadata['HeAdj'] = None
+                    print("There was an error with hetero positions, no respective adjacency matrix calculated for frame %s." %(i), "\n")
+        except KeyError:
+            pass
         
         
         #This  block calculates the concertedness and collectivity of atom rearrangements    
