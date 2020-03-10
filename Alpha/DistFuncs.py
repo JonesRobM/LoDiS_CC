@@ -108,7 +108,7 @@ def Hetero(positions, specie, elements):
             print("You have only one of a specific atom type in your simulation. I hope that this is correct.", "\n")
         except IndexError:
             print("Why the actual fuck do you only have two atoms?", "\n")
-            return [ distance(TempA, TempB) ]
+            return None
     
 
 
